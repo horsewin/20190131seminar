@@ -2,62 +2,6 @@
   "interactionModel": {
     "languageModel": {
       "invocationName": "アイテムリスト",
-      "types":[
-        {
-          "name": "StoreType",
-          "values": [
-            {
-              "id": "1",
-              "name": {
-                "value": "丸の内",
-                "synonyms": [
-                  "まるのうち",
-                  "丸ノ内",
-                  "丸之内"
-                ]
-              }
-            },
-            {
-              "id": "2",
-              "name": {
-                "value": "秋葉原",
-                "synonyms": [
-                  "あきば",
-                  "アキバ",
-                  "あきはばら"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "ItemType",
-          "values": [
-            {
-              "id": "1",
-              "name": {
-                "value": "特売品",
-                "synonyms": [
-                  "特売",
-                  "一番安いやつ",
-                  "おすすめ"
-                ]
-              }
-            },
-            {
-              "id": "2",
-              "name": {
-                "value": "野菜",
-                "synonyms": [
-                  "ヘルシーな商品",
-                  "おやさい",
-                  "ベジタブル"
-                ]
-              }
-            }
-          ]
-        }
-      ],
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -121,19 +65,223 @@
         },
         {
           "name": "ActionIntent",
-          "slots":[
+          "slots": [
             {
               "name": "item",
-              "type": "ItemType"
+              "type": "ItemType",
+              "samples": [
+                "{item}",
+                "今日の {item}",
+                "{item}  教えて"
+              ]
+            },
+            {
+              "name": "store",
+              "type": "StoreType",
+              "samples": [
+                "{store} 支店です",
+                "{store}  店です",
+                "{store}"
+              ]
+            },
+            {
+              "name": "timeOfDay",
+              "type": "AMAZON.DATE"
             }
           ],
           "samples": [
-            "{item} について知りたい",
+            "{timeOfDay}  の {item}",
+            "{timeOfDay} の {store} ",
+            "{timeOfDay} の {item}  について知りたい",
             "{item} について教えて",
+            "{item}  教えて",
+            "{item} について知りたい",
+            "商品についてしりたい",
+            "{store} の  {item} について知りたい",
+            "{store} の {item} について教えて",
             "{item}"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": [
+        {
+          "name": "StoreType",
+          "values": [
+            {
+              "id": "1",
+              "name": {
+                "value": "丸の内",
+                "synonyms": [
+                  "まるのうち",
+                  "丸ノ内",
+                  "丸之内"
+                ]
+              }
+            },
+            {
+              "id": "2",
+              "name": {
+                "value": "秋葉原",
+                "synonyms": [
+                  "あきば",
+                  "アキバ",
+                  "あきはばら"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "ItemType",
+          "values": [
+            {
+              "id": "1",
+              "name": {
+                "value": "特売品",
+                "synonyms": [
+                  "特売",
+                  "一番安いやつ",
+                  "おすすめ"
+                ]
+              }
+            },
+            {
+              "id": "2",
+              "name": {
+                "value": "野菜",
+                "synonyms": [
+                  "ヘルシーな商品",
+                  "おやさい",
+                  "ベジタブル"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "name": {
+                "value": "肉",
+                "synonyms": [
+                  "お肉",
+                  "ミート",
+                  "ビーフ"
+                ]
+              }
+            }
           ]
         }
       ]
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "ActionIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "item",
+              "type": "ItemType",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1273329813583.770186392447"
+              },
+              "validations": [
+                {
+                  "type": "hasEntityResolutionMatch",
+                  "prompt": "Slot.Validation.1273329813583.770186392447.745245306188"
+                }
+              ]
+            },
+            {
+              "name": "store",
+              "type": "StoreType",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1260062527779.1145543314319"
+              },
+              "validations": [
+                {
+                  "type": "hasEntityResolutionMatch",
+                  "prompt": "Slot.Validation.1451919102193.258417065610.341982896135"
+                }
+              ]
+            },
+            {
+              "name": "timeOfDay",
+              "type": "AMAZON.DATE",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "SKILL_RESPONSE"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.1273329813583.770186392447",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "野菜ですか？それとも肉や特売品ですか？"
+          },
+          {
+            "type": "PlainText",
+            "value": "どの商品を知りたい？"
+          }
+        ]
+      },
+      {
+        "id": "Slot.Validation.1273329813583.770186392447.745245306188",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "すいません。 {item} は扱ってないのです。野菜や特売品などと話してもらえますか？"
+          }
+        ]
+      },
+      {
+        "id": "Confirm.Slot.941771548097.1182116848217",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "{item} でいいですか？"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1260062527779.1145543314319",
+        "variations": [
+          {
+            "type": "SSML",
+            "value": "<speak>お店（おみせ）名を教えてください</speak>"
+          },
+          {
+            "type": "PlainText",
+            "value": "店舗はどこでしょう？"
+          },
+          {
+            "type": "PlainText",
+            "value": "どこの店舗ですか？"
+          }
+        ]
+      },
+      {
+        "id": "Slot.Validation.1451919102193.258417065610.341982896135",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "{store} という店舗はありません。知りたい {item}  の店舗名を教えてください。"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -54,7 +54,7 @@ const HelpIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speechText = '「特注品（とくばいひん）をしりたい」、「野菜について知りたい」などはなしかけることで店舗でのお値段を知ることができます。何を知りたいですか？';
+        const speechText = '「特売品をしりたい」、「野菜について知りたい」などはなしかけることで店舗でのお値段を知ることができます。何を知りたいですか？';
 
         return handlerInput.responseBuilder
             .speak(speechText)
