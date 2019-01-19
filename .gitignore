@@ -61,5 +61,4 @@ typings/
 /.ask/
 /lambda/custom/driver.js
 /UnitJson/
-/lambda/custom/*.js
 package-lock.json
